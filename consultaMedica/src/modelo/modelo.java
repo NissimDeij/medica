@@ -90,8 +90,15 @@ public class modelo extends conexion{
             System.err.println(e.getMessage());
         }
         Object[][] data = new String[num_registros][8];
+        String query;
+        if (rut.equals("")){
+            query = "SELECT * FROM consultamedica.paciente";
+        } else {
+            query = "SELECT * FROM consultamedica.paciente WHERE rut='"+rut+"';";
+        }
+        
         try {
-            PreparedStatement pstm = this.getConexion().prepareStatement("SELECT * FROM consultamedica.paciente WHERE rut='"+rut+"';");
+            PreparedStatement pstm = this.getConexion().prepareStatement(query);
             ResultSet res = pstm.executeQuery();
             int i = 0;
             while (res.next()) {
@@ -118,7 +125,7 @@ public class modelo extends conexion{
     }
 
     //metodo para listar pacientes
-    public DefaultTableModel ListarPacientes() {
+    /*public DefaultTableModel ListarPacientes() {
         DefaultTableModel tablemodel = new DefaultTableModel();
         int num_registros = 0;
         String[] columNames = {"Rut", "Nombre", "Género", "Edad", "Dirección", "Ciudad", "Isapre", "Donante"};
@@ -157,7 +164,7 @@ public class modelo extends conexion{
             System.err.println(e.getMessage());
         }
         return tablemodel;
-    }
+    }*/
 
     //metodo para modificar un trabajador
     public boolean modificarPaciente(
