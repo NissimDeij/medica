@@ -62,12 +62,12 @@ public class modelo extends conexion{
                 arreglo[2] = res.getString("genero");
                 arreglo[3] = res.getString("edad");
                 arreglo[4] = res.getString("direccion");
-                arreglo[0] = res.getString("ciudad");
-                arreglo[5] = res.getString("isapre");
+                arreglo[5] = res.getString("ciudad");
+                arreglo[6] = res.getString("isapre");
                 if (res.getString("donante").equals("1")){
-                    arreglo[6] = "Sí";
+                    arreglo[7] = "Sí";
                 } else if (res.getString("donante").equals("0")){
-                    arreglo[6] = "No";
+                    arreglo[7] = "No";
                 }
             }
         } catch (SQLException e) {
@@ -85,10 +85,10 @@ public class modelo extends conexion{
         int registros = 0;
         String[] columNames = {"Rut", "Nombre", "Género", "Edad", "Dirección", "Ciudad", "Isapre", "Donante"};
         try {
-            PreparedStatement pstm = this.getConexion().prepareStatement("SELECT count(*) as total FROM consultamedica.paciente;");
+            PreparedStatement pstm = this.getConexion().prepareStatement("SELECT count(*) as numregistros FROM consultamedica.paciente;");
             ResultSet res = pstm.executeQuery();
             res.next();
-            registros = res.getInt("total");
+            registros = res.getInt("numregistros");
             res.close();
         } catch (SQLException e) {
             System.err.println(e.getMessage());
