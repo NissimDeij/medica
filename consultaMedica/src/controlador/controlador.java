@@ -121,21 +121,34 @@ public class controlador implements ActionListener, MouseListener, FocusListener
                 this.vista3.setLocationRelativeTo(null);
                 this.vista3.setTitle("Listar Pacientes");
                 this.vista3.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+                this.vista3.tblLista.setModel(this.modelo.ListarPacientes()); //actualiza JTable
                 this.vista3.setVisible(true);
                 
             case btnGuardar:
                 //Enviamos datos del formulario Agregar Paciente a metodo agregarPaciente
+                String gen="";
+                String isap="";
+                if(this.vista2.rdbFemenino.isSelected()==true){
+                    gen = "F";
+                }else if(this.vista2.rdbMasculino.isSelected()==true){
+                    gen = "M";
+                }
+                if(this.vista2.rdbSi.isSelected()==true){
+                    isap = "S";
+                }else if(this.vista2.rdbNo.isSelected()==true){
+                    isap = "N";
+                }
+                
                 if(ValidacionFinal(vista2) == true){
-                    if (this.modelo.agregarPaciente(rut, nombre, genero, 0, direccion, ciudad, isapre, true)
-                            Integer.parseInt(this.vista2.txtCodigo.getText()),
+                    if (this.modelo.agregarPaciente(
                             this.vista2.txtRut.getText(),
                             this.vista2.txtNombre.getText(),
-                            this.vista2.txtApellido.getText(),
-                            Integer.parseInt(this.vista2.txtCelular.getText()),
-                            this.vista2.txtEmail.getText(),
-                            Integer.parseInt(this.vista2.txtSueldo.getText()),
-                            this.vista2.cmbEstadoCivil.getSelectedItem().toString().substring(0, 1),
-                            this.vista2.cmbDepartamento.getSelectedItem().toString()
+                            gen,
+                            Integer.parseInt(this.vista2.txtEdad.getText()),
+                            this.vista2.txtDireccion.getText(),
+                            this.vista2.cmbCiudad.getSelectedItem().toString(),
+                            isap,
+                            this.vista2.chkDonante.isSelected()
                     )) {
                         JOptionPane.showMessageDialog(null, "Paciente agregado correctamente");
                         //Limpiamos textField
@@ -157,6 +170,33 @@ public class controlador implements ActionListener, MouseListener, FocusListener
                 LimpiarForm(vista2);
                 this.vista2.setVisible(false);
                 break;
+                
+            case btnBuscar:
+                this.vista3.tblLista.setModel(this.modelo.BuscarPacientes()); //actualiza JTable
+                break;  
+            
+            case btnEliminar:
+                if (this.modelo.eliminarPaciente(
+                       Integer.parseInt(this.vista3.txtBuscarRut.getText())
+                        )){
+                    JOptionPane.showMessageDialog(null, "Trabajador eliminado correctamente");
+                    //Limpiamos textField
+                    this.vistaTrabajador.txtCodigo.setText("");
+                    this.vistaTrabajador.txtRut.setText("");
+                    this.vistaTrabajador.txtNombre.setText("");
+                    this.vistaTrabajador.txtApellido.setText("");
+                    this.vistaTrabajador.txtCelular.setText("");
+                    this.vistaTrabajador.txtEmail.setText("");
+                    this.vistaTrabajador.txtSueldo.setText("");
+                    this.vistaTrabajador.cmbEstadoCivil.setSelectedIndex(0);
+                    this.vistaTrabajador.cmbDepartamento.setSelectedIndex(0);
+                } else {
+                    JOptionPane.showMessageDialog(null, "No se pudo eliminar trabajador");
+                }
+                break;
+
+            
+                
         }
     }
     
