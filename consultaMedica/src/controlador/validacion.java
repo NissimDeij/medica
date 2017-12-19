@@ -48,5 +48,21 @@ public class validacion extends conexion{
         return false;
     }
     
+    public boolean validarLargoString(String varchar){
+        if (varchar.length() <= 60) {
+            return true;
+        }
+        return false;
+    }
+    
+    public boolean esNum(String varchar){
+        try {
+            int x = Integer.parseInt(varchar);
+            return true;
+        } catch (NumberFormatException nfe){
+            return false;
+        }
+    }
+    
     
 }
