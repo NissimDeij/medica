@@ -28,6 +28,8 @@ public class vistaAgregar extends javax.swing.JFrame {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
+        btgGenero = new javax.swing.ButtonGroup();
+        btgIsapre = new javax.swing.ButtonGroup();
         jPanel1 = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
@@ -82,12 +84,16 @@ public class vistaAgregar extends javax.swing.JFrame {
         jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel5.setText("Edad:");
 
+        btgGenero.add(rdbFemenino);
         rdbFemenino.setText("Femenino");
 
+        btgGenero.add(rdbMasculino);
         rdbMasculino.setText("Masculino");
 
+        btgIsapre.add(rdbSi);
         rdbSi.setText("Sí");
 
+        btgIsapre.add(rdbNo);
         rdbNo.setText("No");
 
         chkDonante.setText(" ");
@@ -268,6 +274,8 @@ public class vistaAgregar extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    public javax.swing.ButtonGroup btgGenero;
+    public javax.swing.ButtonGroup btgIsapre;
     public javax.swing.JButton btnGuardar;
     public javax.swing.JButton btnLimpiar;
     public javax.swing.JButton btnSalir;

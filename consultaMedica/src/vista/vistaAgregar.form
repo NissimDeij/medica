@@ -7,6 +7,16 @@
         <Property name="text" type="java.lang.String" value="jLabel1"/>
       </Properties>
     </Component>
+    <Component class="javax.swing.ButtonGroup" name="btgGenero">
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
+      </AuxValues>
+    </Component>
+    <Component class="javax.swing.ButtonGroup" name="btgIsapre">
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
+      </AuxValues>
+    </Component>
   </NonVisualComponents>
   <Properties>
     <Property name="defaultCloseOperation" type="int" value="3"/>
@@ -232,6 +242,9 @@
         </Component>
         <Component class="javax.swing.JRadioButton" name="rdbFemenino">
           <Properties>
+            <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
+              <ComponentRef name="btgGenero"/>
+            </Property>
             <Property name="text" type="java.lang.String" value="Femenino"/>
           </Properties>
           <AuxValues>
@@ -240,6 +253,9 @@
         </Component>
         <Component class="javax.swing.JRadioButton" name="rdbMasculino">
           <Properties>
+            <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
+              <ComponentRef name="btgGenero"/>
+            </Property>
             <Property name="text" type="java.lang.String" value="Masculino"/>
           </Properties>
           <AuxValues>
@@ -248,6 +264,9 @@
         </Component>
         <Component class="javax.swing.JRadioButton" name="rdbSi">
           <Properties>
+            <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
+              <ComponentRef name="btgIsapre"/>
+            </Property>
             <Property name="text" type="java.lang.String" value="S&#xed;"/>
           </Properties>
           <AuxValues>
@@ -256,6 +275,9 @@
         </Component>
         <Component class="javax.swing.JRadioButton" name="rdbNo">
           <Properties>
+            <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
+              <ComponentRef name="btgIsapre"/>
+            </Property>
             <Property name="text" type="java.lang.String" value="No"/>
           </Properties>
           <AuxValues>
