@@ -13,14 +13,14 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.WindowConstants;
 import modelo.modelo;
-import vista.vista1;
+import vista.vistaPrincipal;
 import vista.vistaAgregar;
 import vista.vistaListar;
 
 public class controlador implements ActionListener, MouseListener, FocusListener {
     
     //vistas
-    private vista1 vista1;
+    private vistaPrincipal vista1;
     private vistaAgregar vista2 = new vistaAgregar();
     private vistaListar vista3 = new vistaListar();
     
@@ -58,7 +58,7 @@ public class controlador implements ActionListener, MouseListener, FocusListener
     public void iniciar(){
         try {
             UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
-            SwingUtilities.updateComponentTreeUI(vista1);
+            SwingUtilities.updateComponentTreeUI(this.vista1);
             SwingUtilities.updateComponentTreeUI(this.vista2);
             SwingUtilities.updateComponentTreeUI(this.vista3);
             this.vista1.setLocationRelativeTo(null);
@@ -74,14 +74,14 @@ public class controlador implements ActionListener, MouseListener, FocusListener
         //escuchamos los botones
         
         //item salir
-        this.vista1.itmSalir.setActionCommand("itmSalir");
-        this.vista1.itmSalir.addActionListener(this);
+        this.vista1.mitSalir.setActionCommand("mitSalir");
+        this.vista1.mitSalir.addActionListener(this);
         //item agregar
-        this.vista1.itmAgregar.setActionCommand("itmAgregar");
-        this.vista1.itmAgregar.addActionListener(this);
+        this.vista1.mitAgregar.setActionCommand("mitAgregar");
+        this.vista1.mitAgregar.addActionListener(this);
         //item listar
-        this.vista1.itmListar.setActionCommand("itmListar");
-        this.vista1.itmListar.addActionListener(this);
+        this.vista1.mitListar.setActionCommand("mitListar");
+        this.vista1.mitListar.addActionListener(this);
 
 
         //boton Guardar
@@ -121,7 +121,7 @@ public class controlador implements ActionListener, MouseListener, FocusListener
                 this.vista3.setLocationRelativeTo(null);
                 this.vista3.setTitle("Listar Pacientes");
                 this.vista3.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-                this.vista3.tblLista.setModel(this.modelo.ListarPacientes()); //actualiza JTable
+                this.vista3.tblLista.setModel(this.modelo.buscarPaciente("")); //actualiza JTable
                 this.vista3.setVisible(true);
                 
             case btnGuardar:
@@ -172,31 +172,22 @@ public class controlador implements ActionListener, MouseListener, FocusListener
                 break;
                 
             case btnBuscar:
-                this.vista3.tblLista.setModel(this.modelo.BuscarPacientes()); //actualiza JTable
+                this.vista3.tblLista.setModel(this.modelo.buscarPaciente(this.vista3.txtBuscarRut.getText())); //actualiza JTable
                 break;  
             
             case btnEliminar:
+                /*
                 if (this.modelo.eliminarPaciente(
                        Integer.parseInt(this.vista3.txtBuscarRut.getText())
                         )){
-                    JOptionPane.showMessageDialog(null, "Trabajador eliminado correctamente");
-                    //Limpiamos textField
-                    this.vistaTrabajador.txtCodigo.setText("");
-                    this.vistaTrabajador.txtRut.setText("");
-                    this.vistaTrabajador.txtNombre.setText("");
-                    this.vistaTrabajador.txtApellido.setText("");
-                    this.vistaTrabajador.txtCelular.setText("");
-                    this.vistaTrabajador.txtEmail.setText("");
-                    this.vistaTrabajador.txtSueldo.setText("");
-                    this.vistaTrabajador.cmbEstadoCivil.setSelectedIndex(0);
-                    this.vistaTrabajador.cmbDepartamento.setSelectedIndex(0);
+                    JOptionPane.showMessageDialog(null, "Paciente eliminado correctamente");
                 } else {
                     JOptionPane.showMessageDialog(null, "No se pudo eliminar trabajador");
                 }
+                */
                 break;
-
-            
-                
+            case btnModificar:
+                break;
         }
     }
     
@@ -221,8 +212,52 @@ public class controlador implements ActionListener, MouseListener, FocusListener
     }
 
     @Override
-    public void focusLost(FocusEvent e) {
-        
+    public void focusLost(FocusEvent fe) {
+        // Validación instantanea al salir del campo rut
+        if(fe.getSource()==this.vista2.txtRut){
+            if(!this.vista2.txtRut.getText().equals("")){
+                if(!validacion.validarRut(this.vista2.txtRut.getText())){
+                    JOptionPane.showMessageDialog(null, "El rut ingresado no es válido.\nPor favor ingrese el rut sin puntos ni dígito verificador.");
+                    this.vista2.txtRut.requestFocus();
+                }
+            }    
+        }
+        // Validación instantanea al salir del campo rut en buscar rut
+        else if(fe.getSource()==this.vista3.txtBuscarRut){
+            if(!this.vista3.txtBuscarRut.getText().equals("")){
+                if(!validacion.validarRut(this.vista3.txtBuscarRut.getText())){
+                    JOptionPane.showMessageDialog(null, "El rut ingresado no es válido.\nPor favor ingrese el rut sin puntos ni dígito verificador.");
+                    this.vista3.txtBuscarRut.requestFocus();
+                }
+            }    
+        }
+        // Validación instantanea al salir del campo nombre
+        else if(fe.getSource()==this.vista2.txtNombre){
+            if(!this.vista2.txtNombre.getText().equals("")){
+                if(!validacion.validarLargoString(this.vista2.txtNombre.getText())){
+                    JOptionPane.showMessageDialog(null, "El nombre ingresado excede el número máximo de caracteres permitido.\nPor favor ingrese un nombre de no más de 60 caracteres.");
+                    this.vista2.txtNombre.requestFocus();
+                }
+            }    
+        }
+        // Validación instantanea al salir del campo edad
+        else if(fe.getSource()==this.vista2.txtEdad){
+            if(!this.vista2.txtEdad.getText().equals("")){
+                if(!validacion.esNum(this.vista2.txtEdad.getText())){
+                    JOptionPane.showMessageDialog(null, "La edad ingresada no es válida.\nPor favor ingrese solo valores numéricos.");
+                    this.vista2.txtEdad.requestFocus();
+                }
+            }    
+        }
+        // Validación instantanea al salir del campo dirección
+        else if(fe.getSource()==this.vista2.txtDireccion){
+            if(!this.vista2.txtDireccion.getText().equals("")){
+                if(!validacion.validarLargoString(this.vista2.txtDireccion.getText())){
+                    JOptionPane.showMessageDialog(null, "La dirección ingresada excede el número máximo de caracteres permitido.\nPor favor ingrese una dirección de no más de 60 caracteres.");
+                    this.vista2.txtDireccion.requestFocus();
+                }
+            }    
+        }
     }
 
     private void LimpiarForm(vistaAgregar vista){
