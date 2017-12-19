@@ -48,7 +48,7 @@ public class modelo extends conexion{
     }
 
     //metodo para buscar un unico paciente ya ingresado
-    public String[] buscarPaciente(int rut){
+    /*public String[] buscarPaciente(int rut){
         String[] arreglo = new String[8];
         String query="SELECT * FROM consultamedica.paciente WHERE rut="+rut+";";
         try {
@@ -75,25 +75,63 @@ public class modelo extends conexion{
         }
         
         return arreglo;
-    }
-    
-    
-    
-    //metodo para listar pacientes
-    public DefaultTableModel ListarPacientes() {
+    }*/
+    public DefaultTableModel buscarPaciente(String rut) {
         DefaultTableModel tablemodel = new DefaultTableModel();
-        int registros = 0;
+        int num_registros = 0;
         String[] columNames = {"Rut", "Nombre", "Género", "Edad", "Dirección", "Ciudad", "Isapre", "Donante"};
         try {
             PreparedStatement pstm = this.getConexion().prepareStatement("SELECT count(*) as numregistros FROM consultamedica.paciente;");
             ResultSet res = pstm.executeQuery();
             res.next();
-            registros = res.getInt("numregistros");
+            num_registros = res.getInt("numregistros");
             res.close();
         } catch (SQLException e) {
             System.err.println(e.getMessage());
         }
-        Object[][] data = new String[registros][8];
+        Object[][] data = new String[num_registros][8];
+        try {
+            PreparedStatement pstm = this.getConexion().prepareStatement("SELECT * FROM consultamedica.paciente WHERE rut='"+rut+"';");
+            ResultSet res = pstm.executeQuery();
+            int i = 0;
+            while (res.next()) {
+                data[i][0] = res.getString("rut");
+                data[i][1] = res.getString("nombre");
+                data[i][2] = res.getString("genero");
+                data[i][3] = res.getString("edad");
+                data[i][4] = res.getString("direccion");
+                data[i][5] = res.getString("ciudad");
+                data[i][6] = res.getString("isapre");
+                if (res.getString("donante").equals("1")){
+                    data[i][7] = "Sí";
+                } else if (res.getString("donante").equals("0")){
+                    data[i][7] = "No";
+                }
+                i++;
+            }
+            res.close();
+            tablemodel.setDataVector(data, columNames);
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+        }
+        return tablemodel;
+    }
+
+    //metodo para listar pacientes
+    public DefaultTableModel ListarPacientes() {
+        DefaultTableModel tablemodel = new DefaultTableModel();
+        int num_registros = 0;
+        String[] columNames = {"Rut", "Nombre", "Género", "Edad", "Dirección", "Ciudad", "Isapre", "Donante"};
+        try {
+            PreparedStatement pstm = this.getConexion().prepareStatement("SELECT count(*) as numregistros FROM consultamedica.paciente;");
+            ResultSet res = pstm.executeQuery();
+            res.next();
+            num_registros = res.getInt("numregistros");
+            res.close();
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+        }
+        Object[][] data = new String[num_registros][8];
         try {
             PreparedStatement pstm = this.getConexion().prepareStatement("SELECT * FROM consultamedica.paciente;");
             ResultSet res = pstm.executeQuery();
@@ -173,4 +211,26 @@ public class modelo extends conexion{
         return false;
     }
     
+    //----------------------------------------------------------------------------------------------
+    //Validacion
+    //----------------------------------------------------------------------------------------------
+    
+    public boolean rutExiste(String rut){
+        int num_registros;
+        String query = "SELECT count(*) as numregistros FROM consultamedica.paciente WHERE "+rut+";";
+        try {
+            PreparedStatement pstm = this.getConexion().prepareStatement(query);
+            ResultSet res = pstm.executeQuery();
+            res.next();
+            num_registros = res.getInt("numregistros");
+            res.close();
+            if (num_registros==1){ //evaluar si queremos listar mas de un rut repetido
+                return true;
+            } 
+            return true;
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return false;
+    }
 }
