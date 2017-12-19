@@ -7,6 +7,7 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
@@ -35,9 +36,9 @@ public class controlador implements ActionListener, MouseListener, FocusListener
     //enum
     public enum accion {
         //menu-items
-        itmAgregar, //agregar paciente
-        itmListar, //listar nomina
-        itmSalir, //salir
+        mitAgregar, //agregar paciente
+        mitListar, //listar nomina
+        mitSalir, //salir
         //botones
         btnBuscar, //buscar un paciente por codigo
         btnGuardar, //guardar cambios (al editar paciente)
@@ -53,7 +54,9 @@ public class controlador implements ActionListener, MouseListener, FocusListener
         txtBuscarRut // campo de ingreso para buscar pacientes por rut       
     };
     //constructor de clase
-    
+    public controlador (JFrame padre){
+        this.vista1 = (vistaPrincipal) padre;
+    }
     //inicia todas las acciones y listeners de las vistas
     public void iniciar(){
         try {
@@ -106,18 +109,18 @@ public class controlador implements ActionListener, MouseListener, FocusListener
     @Override
     public void actionPerformed(ActionEvent e) {       
         switch (accion.valueOf(e.getActionCommand())) {
-            case itmSalir:
+            case mitSalir:
                 System.exit(0);
                 break;
                 
-            case itmAgregar:
+            case mitAgregar:
                 this.vista2.setLocationRelativeTo(null);
                 this.vista2.setTitle("Agregar Paciente");
                 this.vista2.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
                 this.vista2.setVisible(true);
                 break;
                 
-            case itmListar:
+            case mitListar:
                 this.vista3.setLocationRelativeTo(null);
                 this.vista3.setTitle("Listar Pacientes");
                 this.vista3.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
