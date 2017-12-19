@@ -48,14 +48,14 @@ public class validacion extends conexion{
         return false;
     }
     
-    public boolean validarLargoString(String varchar){
+    public static boolean validarLargoString(String varchar){
         if (varchar.length() <= 60) {
             return true;
         }
         return false;
     }
-    
-    public boolean esNum(String varchar){
+    // n
+    public static boolean esNum(String varchar){
         try {
             int x = Integer.parseInt(varchar);
             return true;
