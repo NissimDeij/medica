@@ -54,7 +54,7 @@ public class validacion extends conexion{
         }
         return false;
     }
-    // n
+
     public static boolean esNum(String varchar){
         try {
             int x = Integer.parseInt(varchar);
@@ -68,5 +68,21 @@ public class validacion extends conexion{
         }
     }
     
-    
+    public String formatRut(String rut){
+        String rut1 = "";
+        try {
+            rut1 = rut.toUpperCase();
+            rut1 = rut.replace(".",""); //escapa el punto
+            rut1 = rut.replace(",",""); //escapa la coma
+            rut1 = rut.replace("-",""); //escapa el guion
+            rut1 = rut.replace("_",""); //escapa el guion bajo
+            rut1 = rut.replace(" ",""); //escapa el espacio
+            
+            
+            return rut1;
+        } catch (java.lang.NumberFormatException e){
+        } catch (Exception e){
+        }
+        return rut1;
+    }
 }
