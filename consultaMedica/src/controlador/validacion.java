@@ -27,9 +27,11 @@ public class validacion extends conexion{
             System.out.println(rut2);
             int mult=2; //multiplicador
             int suma=0; //almacenará la sumatoria
-            for (int i=0;i<=rut1.length()-1;i++){
-                suma = suma + mult*Integer.parseInt(String.valueOf(rut1.charAt(i))); //suma cada producto entre el rut invertido y el multiplicador
-                if (i==7){ //si se alcanzó la séptima posición resetea el multiplicador
+            for (int i=0;i<=rut2.length()-1;i++){
+                
+                suma = suma + mult*Integer.parseInt(String.valueOf(rut2.charAt(i))); //suma cada producto entre el rut invertido y el multiplicador
+                System.out.println(suma);
+                if (i==5){ //si se alcanzó la séptima posición resetea el multiplicador
                     mult = 1; //es 1 porque 2 lineas mas abajo se le suma 1 en el m++
                 }
                 mult++;
@@ -44,7 +46,7 @@ public class validacion extends conexion{
                 dv2 = "K";
             }
             
-            if (dv1.equals("dv2")){ //si todo el calculo coincide con el DV original, devuelve true, si no false
+            if (dv1.equals(dv2)){ //si todo el calculo coincide con el DV original, devuelve true, si no false
                 return true;
             }
         }catch (java.lang.NumberFormatException e){
