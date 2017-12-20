@@ -34,8 +34,8 @@ public class modelo extends conexion{
                 + "','" + direccion
                 + "','" + ciudad
                 + "','" + isapre
-                + "','" + donanteSQL
-                + "') ;";
+                + "'," + donanteSQL
+                + ") ;";
         try {
             PreparedStatement pstm = this.getConexion().prepareStatement(query);
             pstm.execute();

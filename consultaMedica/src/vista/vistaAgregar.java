@@ -99,7 +99,7 @@ public class vistaAgregar extends javax.swing.JFrame {
         chkDonante.setText(" ");
         chkDonante.setToolTipText("");
 
-        cmbCiudad.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "* seleccione *", "Santiago" }));
+        cmbCiudad.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "* seleccione *", "Santiago", "Viña Del Mar", "Valparaiso", "Rancagua" }));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);

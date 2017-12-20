@@ -156,7 +156,7 @@ public class controlador implements ActionListener, MouseListener, FocusListener
                         JOptionPane.showMessageDialog(null, "Paciente agregado correctamente");
                         //Limpiamos textField
                         LimpiarForm(vista2);
-
+                        vista2.txtRut.requestFocus();
                     }else{
                         JOptionPane.showMessageDialog(null, "No se pudo agregar trabajador");
                     }
