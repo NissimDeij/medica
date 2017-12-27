@@ -17,6 +17,7 @@ import modelo.modelo;
 import vista.vistaPrincipal;
 import vista.vistaAgregar;
 import vista.vistaListar;
+import vista.vistaComunas;
 
 public class controlador implements ActionListener, MouseListener, FocusListener {
     
@@ -24,21 +25,18 @@ public class controlador implements ActionListener, MouseListener, FocusListener
     private vistaPrincipal vista1;
     private vistaAgregar vista2 = new vistaAgregar();
     private vistaListar vista3 = new vistaListar();
+    private vistaComunas vista4 = new vistaComunas();
     
     //modelo
     private modelo modelo = new modelo();
 
-    @Override
-    public void mouseClicked(MouseEvent e) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-    
     //enum
     public enum accion {
         //menu-items
         mitAgregar, //agregar paciente
         mitListar, //listar nomina
         mitSalir, //salir
+        mitListarComuna, // Lista comunas
         //botones
         btnBuscar, //buscar un paciente por codigo
         btnGuardar, //guardar cambios (al editar paciente)
@@ -46,12 +44,16 @@ public class controlador implements ActionListener, MouseListener, FocusListener
         btnModificar, //modifica campos 
         btnLimpiar, //limpiar campos (para agregar o editar paciente)
         btnSalir, //vuelve a la ventana principal
+        btnAgregarComuna,
+        btnEditarComuna,
+        btnEliminarComuna,
         //JTextFields
         txtRut, // campo de ingreso para el rut del paciente
         txtNombre, // campo de ingreso para el nombre del paciente
         txtEdad, // campo de ingreso para la edad del paciente
         txtDireccion, // campo de ingreso para el sueldo del paciente
-        txtBuscarRut // campo de ingreso para buscar pacientes por rut       
+        txtBuscarRut, // campo de ingreso para buscar pacientes por rut       
+        txtIdComuna
     };
     //constructor de clase
     public controlador (JFrame padre){
@@ -64,6 +66,7 @@ public class controlador implements ActionListener, MouseListener, FocusListener
             SwingUtilities.updateComponentTreeUI(this.vista1);
             SwingUtilities.updateComponentTreeUI(this.vista2);
             SwingUtilities.updateComponentTreeUI(this.vista3);
+            SwingUtilities.updateComponentTreeUI(this.vista4);
             this.vista1.setLocationRelativeTo(null);
             this.vista1.setTitle("Consulta Médica");
             //this.vista1.tblTrabajadores.setModel(this.modelo.ListarTrabajadores()); //actualiza JTable
@@ -85,7 +88,9 @@ public class controlador implements ActionListener, MouseListener, FocusListener
         //item listar
         this.vista1.mitListar.setActionCommand("mitListar");
         this.vista1.mitListar.addActionListener(this);
-
+        //item ListarComuna
+        this.vista1.mitListarComuna.setActionCommand("mitListarComuna");
+        this.vista1.mitListarComuna.addActionListener(this);
 
         //boton Guardar
         this.vista2.btnGuardar.setActionCommand("btnGuardar");
@@ -96,16 +101,24 @@ public class controlador implements ActionListener, MouseListener, FocusListener
         //boton Salir
         this.vista2.btnSalir.setActionCommand("btnSalir");
         this.vista2.btnSalir.addActionListener(this);
+        //boton AgregarComuna
+        this.vista4.btnAgregarComuna.setActionCommand("btnAgregarComuna");
+        this.vista4.btnAgregarComuna.addActionListener(this);
+        //boton EditarComuna
+        this.vista4.btnEditarComuna.setActionCommand("btnEditarComuna");
+        this.vista4.btnEditarComuna.addActionListener(this);
+        //boton EliminarComuna
+        this.vista4.btnEliminarComuna.setActionCommand("btnEliminarComuna");
+        this.vista4.btnEliminarComuna.addActionListener(this);
 
         //agregamos focus listeners para los campos del formulario ingresar
         this.vista2.txtRut.addFocusListener(this);
         this.vista2.txtNombre.addFocusListener(this);
         this.vista2.txtEdad.addFocusListener(this);
         this.vista2.txtDireccion.addFocusListener(this);
+        this.vista4.txtIdComuna.addFocusListener(this);
     }
-    
-    
-    
+
     @Override
     public void actionPerformed(ActionEvent e) {       
         switch (accion.valueOf(e.getActionCommand())) {
@@ -126,6 +139,15 @@ public class controlador implements ActionListener, MouseListener, FocusListener
                 this.vista3.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
                 this.vista3.tblLista.setModel(this.modelo.buscarPaciente("")); //actualiza JTable
                 this.vista3.setVisible(true);
+                break;
+                
+            case mitListarComuna:
+                this.vista4.setLocationRelativeTo(null);
+                this.vista4.setTitle("Comunas");
+                this.vista4.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+                this.vista4.tblListarComuna.setModel(this.modelo.listarComunas()); //actualiza JTable
+                this.vista4.setVisible(true);
+                break;
                 
             case btnGuardar:
                 //Enviamos datos del formulario Agregar Paciente a metodo agregarPaciente
@@ -179,7 +201,6 @@ public class controlador implements ActionListener, MouseListener, FocusListener
                 break;  
             
             case btnEliminar:
-                /*
                 if (this.modelo.eliminarPaciente(
                        Integer.parseInt(this.vista3.txtBuscarRut.getText())
                         )){
@@ -187,10 +208,59 @@ public class controlador implements ActionListener, MouseListener, FocusListener
                 } else {
                     JOptionPane.showMessageDialog(null, "No se pudo eliminar trabajador");
                 }
-                */
                 break;
             case btnModificar:
                 break;
+            
+            case btnAgregarComuna:
+                if(!this.vista4.txtIdComuna.getText().equals("") && !this.vista4.txtNombreComuna.getText().equals("")){
+                    if(this.modelo.comunaExiste(Integer.parseInt(this.vista4.txtIdComuna.getText()))==false){
+                        if(this.modelo.agregarComuna(
+                                Integer.parseInt(this.vista4.txtIdComuna.getText()),
+                                this.vista4.txtNombreComuna.getText())){
+                            this.LimpiarFormComuna(vista4);
+                            this.vista4.tblListarComuna.setModel(this.modelo.listarComunas()); //actualiza JTable
+                            JOptionPane.showMessageDialog(null, "Comuna agregada exitosamente");
+                        }else{
+                            JOptionPane.showMessageDialog(null, "No fue posible agregar la comuna");
+                        }
+                    }else{
+                        JOptionPane.showMessageDialog(null, "La comuna ya existe");
+                    }
+                }else{
+                    JOptionPane.showMessageDialog(null, "Por favor complete todos los campos");
+                }    
+                break;
+            
+            case btnEditarComuna:
+                if(!this.vista4.txtIdComuna.getText().equals("") && 
+                        this.modelo.comunaExiste(Integer.parseInt(this.vista4.txtIdComuna.getText())) && 
+                        !this.vista4.txtNombreComuna.getText().equals("")){
+                    if(this.modelo.modificarComuna(
+                            Integer.parseInt(this.vista4.txtIdComuna.getText()),
+                            this.vista4.txtNombreComuna.getText())){
+                        this.LimpiarFormComuna(vista4);
+                        this.vista4.tblListarComuna.setModel(this.modelo.listarComunas()); //actualiza JTable
+                        JOptionPane.showMessageDialog(null, "Comuna modificada exitosamente");
+                    }else{
+                        JOptionPane.showMessageDialog(null, "No fue posible modificar la comuna");
+                    }
+                }
+                break;
+                
+            case btnEliminarComuna:
+                if(!this.vista4.txtIdComuna.getText().equals("") && this.modelo.comunaExiste(Integer.parseInt(this.vista4.txtIdComuna.getText()))){
+                    if(this.modelo.eliminarComuna(
+                            Integer.parseInt(this.vista4.txtIdComuna.getText()))){
+                        this.LimpiarFormComuna(vista4);
+                        this.vista4.tblListarComuna.setModel(this.modelo.listarComunas()); //actualiza JTable
+                        JOptionPane.showMessageDialog(null, "Comuna eliminada exitosamente");
+                    }else{
+                        JOptionPane.showMessageDialog(null, "No fue posible eliminar la comuna");
+                    }
+                }
+                break;
+                
         }
     }
     
@@ -200,6 +270,11 @@ public class controlador implements ActionListener, MouseListener, FocusListener
 
     @Override
     public void mouseReleased(MouseEvent e) {
+    }
+    
+    @Override
+    public void mouseClicked(MouseEvent e) {
+        
     }
 
     @Override
@@ -272,6 +347,11 @@ public class controlador implements ActionListener, MouseListener, FocusListener
         vista.btgGenero.clearSelection();
         vista.btgIsapre.clearSelection();
         vista.chkDonante.setSelected(false);
+    }
+    
+    private void LimpiarFormComuna(vistaComunas vista){
+        vista.txtIdComuna.setText("");
+        vista.txtNombreComuna.setText("");
     }
     
     private boolean ValidacionFinal(vistaAgregar v){
