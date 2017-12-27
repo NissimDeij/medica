@@ -9,6 +9,58 @@ import sql.conexion;
 
 public class modelo extends conexion{
     
+    //metodo boolean agregar Comuna
+    public boolean agregarComuna(int idComuna, String nombre){
+        
+        String query = "INSERT INTO consultamedica.comuna(idComuna,nombre)"
+                + "VALUES('"+ idComuna
+                + "','" + nombre
+                + ") ;";
+        try {
+            PreparedStatement pstm = this.getConexion().prepareStatement(query);
+            pstm.execute();
+            pstm.close();
+            return true;
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return false;
+    }
+    
+    //metodo para modificar comuna
+    public boolean modificarComuna(
+            String idComuna,
+            String nombre) {
+        
+        String query = "UPDATE consultamedica.comuna SET "
+                + "nombre='" + nombre
+                + "' WHERE idComuna='" + idComuna
+                + "' ;";
+        try {
+            PreparedStatement pstm = this.getConexion().prepareStatement(query);
+            pstm.execute();
+            pstm.close();
+            return true;
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+        }
+        return false;
+    }
+    
+    //metodo para eliminar comuna
+    public boolean eliminarComuna(int idComuna) {
+        String query = "DELETE FROM consultamedica.comuna WHERE idComuna =" + idComuna + ";";
+        try {
+            PreparedStatement pstm = this.getConexion().prepareStatement(query);
+            pstm.execute();
+            pstm.close();
+            return true;
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return false;
+    }
+    
     //metodo para listar comunas para poblar comboboxes
     public ArrayList poblarComboComunas(){
        ArrayList<String> comunasList = new ArrayList<String>();
@@ -205,9 +257,30 @@ public class modelo extends conexion{
     //Validacion
     //----------------------------------------------------------------------------------------------
     
+    //metodo que valida si rut existe
     public boolean rutExiste(String rut){
         int num_registros;
         String query = "SELECT count(*) as numregistros FROM consultamedica.paciente WHERE "+rut+";";
+        try {
+            PreparedStatement pstm = this.getConexion().prepareStatement(query);
+            ResultSet res = pstm.executeQuery();
+            res.next();
+            num_registros = res.getInt("numregistros");
+            res.close();
+            if (num_registros==1){ //evaluar si queremos listar mas de un rut repetido
+                return true;
+            } 
+            return true;
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return false;
+    }
+    
+    //metodo para validar que comuna existe
+    public boolean comunaExiste(String idComuna){
+        int num_registros;
+        String query = "SELECT count(*) as numregistros FROM consultamedica.paciente WHERE "+idComuna+";";
         try {
             PreparedStatement pstm = this.getConexion().prepareStatement(query);
             ResultSet res = pstm.executeQuery();
