@@ -42,7 +42,7 @@ public class modelo extends conexion{
             System.err.println(e.getMessage());
         }
         Object[][] data = new String[num_registros][2];
-        String query = "SELECT * FROM consultamedica.paciente";
+        String query = "SELECT * FROM consultamedica.comuna";
         
         try {
             PreparedStatement pstm = this.getConexion().prepareStatement(query);
