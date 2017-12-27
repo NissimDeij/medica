@@ -3,10 +3,63 @@ package modelo;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import javax.swing.table.DefaultTableModel;
 import sql.conexion;
 
 public class modelo extends conexion{
+    
+    //metodo para listar comunas para poblar comboboxes
+    public ArrayList poblarComboComunas(){
+       ArrayList<String> comunasList = new ArrayList<String>();
+       String query = "SELECT nombre FROM comuna";
+       try {
+            PreparedStatement pstm = this.getConexion().prepareStatement(query);
+            ResultSet res = pstm.executeQuery();
+            while (res.next()) {
+                String comunaRow = res.getString("comunasList");
+                comunasList.add(comunaRow);
+            }
+            res.close();
+       } catch (SQLException e) {
+           System.out.println(e.getMessage());
+       }
+       return comunasList;
+    }
+    
+    //metodo para listar comunas
+    public DefaultTableModel listarComunas() {
+        DefaultTableModel tablemodel = new DefaultTableModel();
+        int num_registros = 0;
+        String[] columNames = {"ID Comuna", "Nombre"};
+        try {
+            PreparedStatement pstm = this.getConexion().prepareStatement("SELECT count(*) as numregistros FROM consultamedica.comuna;");
+            ResultSet res = pstm.executeQuery();
+            res.next();
+            num_registros = res.getInt("numregistros");
+            res.close();
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+        }
+        Object[][] data = new String[num_registros][3];
+        String query = "SELECT * FROM consultamedica.paciente";
+        
+        try {
+            PreparedStatement pstm = this.getConexion().prepareStatement(query);
+            ResultSet res = pstm.executeQuery();
+            int i = 0;
+            while (res.next()) {
+                data[i][0] = res.getString("idComuna");
+                data[i][1] = res.getString("nombre");
+                i++;
+            }
+            res.close();
+            tablemodel.setDataVector(data, columNames);
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+        }
+        return tablemodel;
+    }
     
     //metodo para agregar paciente
     public boolean agregarPaciente(
@@ -47,35 +100,7 @@ public class modelo extends conexion{
         return false;
     }
 
-    //metodo para buscar un unico paciente ya ingresado
-    /*public String[] buscarPaciente(int rut){
-        String[] arreglo = new String[8];
-        String query="SELECT * FROM consultamedica.paciente WHERE rut="+rut+";";
-        try {
-            PreparedStatement pstm = this.getConexion().prepareStatement(query);
-            ResultSet res = pstm.executeQuery();
-            res.next();
-            res.close();
-            while (res.next()) {
-                arreglo[0] = res.getString("rut");
-                arreglo[1] = res.getString("nombre");
-                arreglo[2] = res.getString("genero");
-                arreglo[3] = res.getString("edad");
-                arreglo[4] = res.getString("direccion");
-                arreglo[5] = res.getString("ciudad");
-                arreglo[6] = res.getString("isapre");
-                if (res.getString("donante").equals("1")){
-                    arreglo[7] = "Sí";
-                } else if (res.getString("donante").equals("0")){
-                    arreglo[7] = "No";
-                }
-            }
-        } catch (SQLException e) {
-            System.err.println(e.getMessage());
-        }
-        
-        return arreglo;
-    }*/
+    //metodo para buscar paciente por rut o listar todos los pacientes
     public DefaultTableModel buscarPaciente(String rut) {
         DefaultTableModel tablemodel = new DefaultTableModel();
         int num_registros = 0;
@@ -123,48 +148,6 @@ public class modelo extends conexion{
         }
         return tablemodel;
     }
-
-    //metodo para listar pacientes
-    /*public DefaultTableModel ListarPacientes() {
-        DefaultTableModel tablemodel = new DefaultTableModel();
-        int num_registros = 0;
-        String[] columNames = {"Rut", "Nombre", "Género", "Edad", "Dirección", "Ciudad", "Isapre", "Donante"};
-        try {
-            PreparedStatement pstm = this.getConexion().prepareStatement("SELECT count(*) as numregistros FROM consultamedica.paciente;");
-            ResultSet res = pstm.executeQuery();
-            res.next();
-            num_registros = res.getInt("numregistros");
-            res.close();
-        } catch (SQLException e) {
-            System.err.println(e.getMessage());
-        }
-        Object[][] data = new String[num_registros][8];
-        try {
-            PreparedStatement pstm = this.getConexion().prepareStatement("SELECT * FROM consultamedica.paciente;");
-            ResultSet res = pstm.executeQuery();
-            int i = 0;
-            while (res.next()) {
-                data[i][0] = res.getString("rut");
-                data[i][1] = res.getString("nombre");
-                data[i][2] = res.getString("genero");
-                data[i][3] = res.getString("edad");
-                data[i][4] = res.getString("direccion");
-                data[i][5] = res.getString("ciudad");
-                data[i][6] = res.getString("isapre");
-                if (res.getString("donante").equals("1")){
-                    data[i][7] = "Sí";
-                } else if (res.getString("donante").equals("0")){
-                    data[i][7] = "No";
-                }
-                i++;
-            }
-            res.close();
-            tablemodel.setDataVector(data, columNames);
-        } catch (SQLException e) {
-            System.err.println(e.getMessage());
-        }
-        return tablemodel;
-    }*/
 
     //metodo para modificar un trabajador
     public boolean modificarPaciente(
