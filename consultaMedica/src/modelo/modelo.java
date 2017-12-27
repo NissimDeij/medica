@@ -4,6 +4,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import sql.conexion;
 
@@ -13,9 +14,9 @@ public class modelo extends conexion{
     public boolean agregarComuna(int idComuna, String nombre){
         
         String query = "INSERT INTO consultamedica.comuna(idComuna,nombre)"
-                + "VALUES('"+ idComuna
-                + "','" + nombre
-                + ") ;";
+                + "VALUES(" + idComuna
+                + ",'" + nombre
+                + "') ;";
         try {
             PreparedStatement pstm = this.getConexion().prepareStatement(query);
             pstm.execute();
@@ -29,7 +30,7 @@ public class modelo extends conexion{
     
     //metodo para modificar comuna
     public boolean modificarComuna(
-            String idComuna,
+            int idComuna,
             String nombre) {
         
         String query = "UPDATE consultamedica.comuna SET "
@@ -260,7 +261,7 @@ public class modelo extends conexion{
     //metodo que valida si rut existe
     public boolean rutExiste(String rut){
         int num_registros;
-        String query = "SELECT count(*) as numregistros FROM consultamedica.paciente WHERE "+rut+";";
+        String query = "SELECT count(*) as numregistros FROM consultamedica.paciente WHERE rut = " + rut + ";";
         try {
             PreparedStatement pstm = this.getConexion().prepareStatement(query);
             ResultSet res = pstm.executeQuery();
@@ -270,7 +271,6 @@ public class modelo extends conexion{
             if (num_registros==1){ //evaluar si queremos listar mas de un rut repetido
                 return true;
             } 
-            return true;
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
@@ -278,9 +278,9 @@ public class modelo extends conexion{
     }
     
     //metodo para validar que comuna existe
-    public boolean comunaExiste(String idComuna){
-        int num_registros;
-        String query = "SELECT count(*) as numregistros FROM consultamedica.paciente WHERE "+idComuna+";";
+    public boolean comunaExiste(int idComuna){
+        int num_registros=0;
+        String query = "SELECT count(*) as numregistros FROM consultamedica.comuna WHERE idComuna =" + idComuna + ";";
         try {
             PreparedStatement pstm = this.getConexion().prepareStatement(query);
             ResultSet res = pstm.executeQuery();
@@ -290,7 +290,6 @@ public class modelo extends conexion{
             if (num_registros==1){ //evaluar si queremos listar mas de un rut repetido
                 return true;
             } 
-            return true;
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
