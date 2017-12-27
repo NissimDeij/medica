@@ -41,7 +41,7 @@ public class modelo extends conexion{
         } catch (SQLException e) {
             System.err.println(e.getMessage());
         }
-        Object[][] data = new String[num_registros][3];
+        Object[][] data = new String[num_registros][2];
         String query = "SELECT * FROM consultamedica.paciente";
         
         try {
