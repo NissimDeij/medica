@@ -44,30 +44,33 @@ public class modeloIT {
      * Test of agregarComuna method, of class modelo.
      */
     @Test
-    @Ignore
     public void testAgregarComuna() {
-        System.out.println("agregarComuna");
-        int idComuna = 0;
-        String nombre = "";
+        System.out.println("Incio test agregarComuna");
+        int idComuna = 6;
+        String nombre = "Comuna Test";
+        System.out.println("Creando instancia del modelo para acceder al método agregarComuna");
         modelo instance = new modelo();
-        boolean expResult = false;
+        boolean expResult = true;
         boolean result = instance.agregarComuna(idComuna, nombre);
+        System.out.println("Verificando resultado del test");
         assertEquals(expResult, result);
+        System.out.println("Test agregarComuna finalizado");
         // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        //fail("The test case is a prototype.");
     }
 
     /**
      * Test of buscarPacientexComuna method, of class modelo.
      */
     @Test
-    
     public void testBuscarPacientexComuna() {
         boolean aux;
-        System.out.println("buscarPacientexComuna");
+        System.out.println("Incio test buscarPacientexComuna");
         String nombreComuna = "Santiago";
+        System.out.println("Creando instancia del modelo para acceder al método buscarPacientexComuna");
         modelo instance = new modelo();
         boolean expResult = true;
+        System.out.println("Verificando resultado del test");
         DefaultTableModel result = instance.buscarPacientexComuna(nombreComuna);
         if(result!=null){
             aux = true;
@@ -75,6 +78,7 @@ public class modeloIT {
             aux = false;
         }
         assertEquals(expResult, aux);
+        System.out.println("Test buscarPacientexComuna finalizado");
         
         // TODO review the generated test code and remove the default call to fail.
         //*fail("The test case is a prototype.");
@@ -147,39 +151,50 @@ public class modeloIT {
      * Test of buscarLikePacient method, of class modelo.
      */
     @Test
-    @Ignore
     public void testBuscarLikePacient() {
-        System.out.println("buscarLikePacient");
-        String textodet = "";
+        boolean aux;
+        System.out.println("Incio test buscarLikePaciente");
+        String textodet = "illa";
+        System.out.println("Creando instancia del modelo para acceder al método buscarLikePaciente");
         modelo instance = new modelo();
-        DefaultTableModel expResult = null;
+        boolean expResult = true;
+        System.out.println("Verificando resultado del test");
         DefaultTableModel result = instance.buscarLikePacient(textodet);
-        assertEquals(expResult, result);
+        if(result!=null){
+            aux = true;
+        }else{
+            aux = false;
+        }
+            
+        assertEquals(expResult, aux);
+        System.out.println("Test buscarLikePaciente finalizado");
         // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        //fail("The test case is a prototype.");
     }
 
     /**
      * Test of agregarPaciente method, of class modelo.
      */
     @Test
-    @Ignore
     public void testAgregarPaciente() {
-        System.out.println("agregarPaciente");
-        String rut = "";
-        String nombre = "";
-        String genero = "";
-        int edad = 0;
-        String direccion = "";
-        int idComuna = 0;
-        String isapre = "";
+        System.out.println("Incio test agregarPaciente");
+        String rut = "33333333-3";
+        String nombre = "Leonardo Auriol";
+        String genero = "M";
+        int edad = 32;
+        String direccion = "Dirección test";
+        int idComuna = 6;
+        String isapre = "S";
         boolean donante = false;
+        System.out.println("Creando instancia del modelo para acceder al método agregarPaciente");
         modelo instance = new modelo();
-        boolean expResult = false;
+        boolean expResult = true;
         boolean result = instance.agregarPaciente(rut, nombre, genero, edad, direccion, idComuna, isapre, donante);
+        System.out.println("Verificando resultado del test");
         assertEquals(expResult, result);
+        System.out.println("Test agregarPaciente finalizado");
         // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        //fail("The test case is a prototype.");
     }
 
     /**

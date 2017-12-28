@@ -215,12 +215,14 @@ public class controlador implements ActionListener, MouseListener, FocusListener
                 if (this.modelo.eliminarPaciente(
                        this.vista3.tblLista.getValueAt(this.vista3.tblLista.getSelectedRow(), 0).toString()
                         )){
+                    this.vista3.tblLista.setModel(this.modelo.buscarPaciente("")); //actualiza JTable
                     JOptionPane.showMessageDialog(null, "Paciente eliminado correctamente");
                 } else {
                     JOptionPane.showMessageDialog(null, "No se pudo eliminar trabajador");
                 }
                 break;
             case btnModificar:
+                
                 break;
             
             case btnAgregarComuna:
