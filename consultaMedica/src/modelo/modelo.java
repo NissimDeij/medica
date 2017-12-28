@@ -68,9 +68,10 @@ public class modelo extends conexion{
        try {
             PreparedStatement pstm = this.getConexion().prepareStatement(query);
             ResultSet res = pstm.executeQuery();
+            comunasList.add("*Seleccione*");
             while (res.next()) {
-                String comunaRow = res.getString("comunasList");
-                comunasList.add(comunaRow);
+                String nombre = res.getString("nombre");
+                comunasList.add(nombre);
             }
             res.close();
        } catch (SQLException e) {
@@ -97,7 +98,7 @@ public class modelo extends conexion{
         String query = "SELECT "
                 + "paciente.rut,"
                 + "paciente.nombre,"
-                + "paciente.gener,"
+                + "paciente.genero,"
                 + "paciente.edad,"
                 + "paciente.direccion,"
                 + "comuna.nombre,"
@@ -183,29 +184,29 @@ public class modelo extends conexion{
             query = "SELECT "
                 + "paciente.rut,"
                 + "paciente.nombre,"
-                + "paciente.gener,"
+                + "paciente.genero,"
                 + "paciente.edad,"
                 + "paciente.direccion,"
-                + "comuna.nombre,"
+                + "comuna.nombre AS nombreComuna,"
                 + "paciente.isapre,"
                 + "paciente.donante "
-                + "FROM consultamedica.paciente"
-                + "INNER JOIN comuna ON comuna.idcomuna = paciente.idComuna"
-                + "ORDER BY paciente.rut ASC";
+                + "FROM consultamedica.paciente "
+                + "INNER JOIN comuna ON comuna.idComuna = paciente.idComuna;";
+                //+ "ORDER BY paciente.rut ASC";
         } else {
             query = "SELECT "
                 + "paciente.rut,"
                 + "paciente.nombre,"
-                + "paciente.gener,"
+                + "paciente.genero,"
                 + "paciente.edad,"
                 + "paciente.direccion,"
-                + "comuna.nombre,"
+                + "comuna.nombre AS nombreComuna,"
                 + "paciente.isapre,"
                 + "paciente.donante "
-                + "FROM consultamedica.paciente"
-                + "INNER JOIN comuna ON comuna.idcomuna = paciente.idComuna"
-                + "WHERE rut='" + rut + "'"
-                + "ORDER BY paciente.rut ASC ;";
+                + "FROM consultamedica.paciente "
+                + "INNER JOIN comuna ON comuna.idComuna = paciente.idComuna"
+                + "WHERE rut='" + rut + "';";
+                //+ "ORDER BY paciente.rut ASC ;";
         }
         
         try {
@@ -218,7 +219,7 @@ public class modelo extends conexion{
                 data[i][2] = res.getString("genero");
                 data[i][3] = res.getString("edad");
                 data[i][4] = res.getString("direccion");
-                data[i][5] = res.getString("idComuna");
+                data[i][5] = res.getString("nombreComuna");
                 data[i][6] = res.getString("isapre");
                 if (res.getString("donante").equals("1")){
                     data[i][7] = "Sí";

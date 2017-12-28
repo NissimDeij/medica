@@ -7,6 +7,7 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
@@ -130,6 +131,7 @@ public class controlador implements ActionListener, MouseListener, FocusListener
                 this.vista2.setLocationRelativeTo(null);
                 this.vista2.setTitle("Agregar Paciente");
                 this.vista2.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
+                this.vista2.cmbCiudad.setModel(new DefaultComboBoxModel(this.modelo.poblarComboComunas().toArray()));
                 this.vista2.setVisible(true);
                 break;
                 
@@ -171,7 +173,7 @@ public class controlador implements ActionListener, MouseListener, FocusListener
                             gen,
                             Integer.parseInt(this.vista2.txtEdad.getText()),
                             this.vista2.txtDireccion.getText(),
-                            this.vista2.cmbCiudad.getSelectedItem().toString(),
+                            this.vista2.cmbCiudad.getSelectedIndex(),
                             isap,
                             this.vista2.chkDonante.isSelected()
                     )) {
