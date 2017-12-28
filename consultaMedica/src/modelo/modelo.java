@@ -114,6 +114,66 @@ public class modelo extends conexion{
         return tablemodel;
     }
     
+    //metodo para buscar texto determinado en nombre paciente
+    public DefaultTableModel buscarLikePacient(String textodet){
+        DefaultTableModel tablemodel = new DefaultTableModel();
+        int num_registros = 0;
+        String[] columNames = {"Rut", "Nombre", "Género", "Edad", "Dirección", "Comuna", "Isapre", "Donante"};
+        try {
+            PreparedStatement pstm = this.getConexion().prepareStatement("SELECT count(*) as numregistros FROM consultamedica.paciente;");
+            ResultSet res = pstm.executeQuery();
+            res.next();
+            num_registros = res.getInt("numregistros");
+            res.close();
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+        }
+        Object[][] data = new String[num_registros][8];
+        String query;
+        
+        query = "SELECT "
+                + "paciente.rut,"
+                + "paciente.nombre,"
+                + "paciente.genero,"
+                + "paciente.edad,"
+                + "paciente.direccion,"
+                + "comuna.nombre AS nombreComuna,"
+                + "paciente.isapre,"
+                + "paciente.donante "
+                + "FROM consultamedica.paciente "
+                + "INNER JOIN comuna ON comuna.idComuna = paciente.idComuna "
+                + "WHERE paciente.nombre LIKE '%"+textodet+"%' ;";
+                //+ "ORDER BY paciente.rut ASC";
+        
+        
+        try {
+            PreparedStatement pstm = this.getConexion().prepareStatement(query);
+            ResultSet res = pstm.executeQuery();
+            int i = 0;
+            while (res.next()) {
+                data[i][0] = res.getString("rut");
+                data[i][1] = res.getString("nombre");
+                data[i][2] = res.getString("genero");
+                data[i][3] = res.getString("edad");
+                data[i][4] = res.getString("direccion");
+                data[i][5] = res.getString("nombreComuna");
+                data[i][6] = res.getString("isapre");
+                if (res.getString("donante").equals("1")){
+                    data[i][7] = "Sí";
+                } else if (res.getString("donante").equals("0")){
+                    data[i][7] = "No";
+                }
+                i++;
+            }
+            res.close();
+            tablemodel.setDataVector(data, columNames);
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+        }
+        return tablemodel;
+    }
+    
+    
     //metodo para agregar paciente
     public boolean agregarPaciente(
             String rut,
