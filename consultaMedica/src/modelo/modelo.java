@@ -264,8 +264,8 @@ public class modelo extends conexion{
     }
 
     //metodo para eliminar trabajador
-    public boolean eliminarPaciente(int rut) {
-        String query = "DELETE FROM consultamedica.paciente WHERE rut =" + rut + ";";
+    public boolean eliminarPaciente(String rut) {
+        String query = "DELETE FROM consultamedica.paciente WHERE rut ='" + rut + "';";
         try {
             PreparedStatement pstm = this.getConexion().prepareStatement(query);
             pstm.execute();

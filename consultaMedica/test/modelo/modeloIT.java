@@ -13,6 +13,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import org.junit.Ignore;
 
 /**
  *
@@ -45,8 +46,8 @@ public class modeloIT {
     @Test
     public void testAgregarComuna() {
         System.out.println("agregarComuna");
-        int idComuna = 7;
-        String nombre = "Test2";
+        int idComuna = 6;
+        String nombre = "Comuna Test";
         modelo instance = new modelo();
         boolean expResult = true;
         boolean result = instance.agregarComuna(idComuna, nombre);
@@ -60,17 +61,15 @@ public class modeloIT {
      */
     @Test
     public void testModificarComuna() {
-        /*
-        System.out.println("modificarComuna");
-        int idComuna = 0;
-        String nombre = "";
-        modelo instance = new modelo();
-        boolean expResult = false;
-        boolean result = instance.modificarComuna(idComuna, nombre);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-        */
+//        System.out.println("modificarComuna");
+//        int idComuna = 0;
+//        String nombre = "";
+//        modelo instance = new modelo();
+//        boolean expResult = false;
+//        boolean result = instance.modificarComuna(idComuna, nombre);
+//        assertEquals(expResult, result);
+//        // TODO review the generated test code and remove the default call to fail.
+//        fail("The test case is a prototype.");
     }
 
     /**
@@ -78,16 +77,14 @@ public class modeloIT {
      */
     @Test
     public void testEliminarComuna() {
-        /*
-        System.out.println("eliminarComuna");
-        int idComuna = 0;
-        modelo instance = new modelo();
-        boolean expResult = false;
-        boolean result = instance.eliminarComuna(idComuna);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-        */
+//        System.out.println("eliminarComuna");
+//        int idComuna = 0;
+//        modelo instance = new modelo();
+//        boolean expResult = false;
+//        boolean result = instance.eliminarComuna(idComuna);
+//        assertEquals(expResult, result);
+//        // TODO review the generated test code and remove the default call to fail.
+//        fail("The test case is a prototype.");
     }
 
     /**
@@ -95,15 +92,13 @@ public class modeloIT {
      */
     @Test
     public void testPoblarComboComunas() {
-        /*
-        System.out.println("poblarComboComunas");
-        modelo instance = new modelo();
-        ArrayList expResult = null;
-        ArrayList result = instance.poblarComboComunas();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-        */
+//        System.out.println("poblarComboComunas");
+//        modelo instance = new modelo();
+//        ArrayList expResult = null;
+//        ArrayList result = instance.poblarComboComunas();
+//        assertEquals(expResult, result);
+//        // TODO review the generated test code and remove the default call to fail.
+//        fail("The test case is a prototype.");
     }
 
     /**
@@ -111,7 +106,6 @@ public class modeloIT {
      */
     @Test
     public void testListarComunas() {
-        
 //        System.out.println("listarComunas");
 //        modelo instance = new modelo();
 //        DefaultTableModel expResult = null;
@@ -126,21 +120,21 @@ public class modeloIT {
      */
     @Test
     public void testAgregarPaciente() {
-//        System.out.println("agregarPaciente");
-//        String rut = "";
-//        String nombre = "";
-//        String genero = "";
-//        int edad = 0;
-//        String direccion = "";
-//        String ciudad = "";
-//        String isapre = "";
-//        boolean donante = false;
-//        modelo instance = new modelo();
-//        boolean expResult = false;
-//        boolean result = instance.agregarPaciente(rut, nombre, genero, edad, direccion, ciudad, isapre, donante);
-//        assertEquals(expResult, result);
-//        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
+        System.out.println("agregarPaciente");
+        String rut = "33333333-3";
+        String nombre = "Leonardo Auriol";
+        String genero = "M";
+        int edad = 32;
+        String direccion = "fasdasf";
+        int idComuna = 6;
+        String isapre = "S";
+        boolean donante = false;
+        modelo instance = new modelo();
+        boolean expResult = true;
+        boolean result = instance.agregarPaciente(rut, nombre, genero, edad, direccion, idComuna, isapre, donante);
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        //fail("The test case is a prototype.");
     }
 
     /**
@@ -169,12 +163,12 @@ public class modeloIT {
 //        String genero = "";
 //        int edad = 0;
 //        String direccion = "";
-//        String ciudad = "";
+//        String idComuna = "";
 //        String isapre = "";
 //        boolean donante = false;
 //        modelo instance = new modelo();
 //        boolean expResult = false;
-//        boolean result = instance.modificarPaciente(rut, nombre, genero, edad, direccion, ciudad, isapre, donante);
+//        boolean result = instance.modificarPaciente(rut, nombre, genero, edad, direccion, idComuna, isapre, donante);
 //        assertEquals(expResult, result);
 //        // TODO review the generated test code and remove the default call to fail.
 //        fail("The test case is a prototype.");

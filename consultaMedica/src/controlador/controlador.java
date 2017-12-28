@@ -102,9 +102,15 @@ public class controlador implements ActionListener, MouseListener, FocusListener
         //boton Salir
         this.vista2.btnSalir.setActionCommand("btnSalir");
         this.vista2.btnSalir.addActionListener(this);
-        //boton Salir
+        //boton Buscar
         this.vista3.btnBuscar.setActionCommand("btnBuscar");
         this.vista3.btnBuscar.addActionListener(this);
+        //boton Modificar
+        this.vista3.btnModificar.setActionCommand("btnModificar");
+        this.vista3.btnModificar.addActionListener(this);
+        //boton Eliminar
+        this.vista3.btnEliminar.setActionCommand("btnEliminar");
+        this.vista3.btnEliminar.addActionListener(this);
         //boton AgregarComuna
         this.vista4.btnAgregarComuna.setActionCommand("btnAgregarComuna");
         this.vista4.btnAgregarComuna.addActionListener(this);
@@ -207,7 +213,7 @@ public class controlador implements ActionListener, MouseListener, FocusListener
             
             case btnEliminar:
                 if (this.modelo.eliminarPaciente(
-                       Integer.parseInt(this.vista3.txtBuscarRut.getText())
+                       this.vista3.tblLista.getValueAt(this.vista3.tblLista.getSelectedRow(), 0).toString()
                         )){
                     JOptionPane.showMessageDialog(null, "Paciente eliminado correctamente");
                 } else {
