@@ -95,18 +95,7 @@ public class modelo extends conexion{
             System.err.println(e.getMessage());
         }
         Object[][] data = new String[num_registros][2];
-        String query = "SELECT "
-                + "paciente.rut,"
-                + "paciente.nombre,"
-                + "paciente.genero,"
-                + "paciente.edad,"
-                + "paciente.direccion,"
-                + "comuna.nombre,"
-                + "paciente.isapre,"
-                + "paciente.donante "
-                + "FROM consultamedica.paciente"
-                + "INNER JOIN comuna ON comuna.idcomuna = paciente.idComuna"
-                + "ORDER BY paciente.rut ASC";
+        String query = "SELECT * FROM comuna ORDER BY idComuna ASC";
         
         try {
             PreparedStatement pstm = this.getConexion().prepareStatement(query);
