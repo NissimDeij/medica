@@ -4,7 +4,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import sql.conexion;
 
@@ -95,7 +94,18 @@ public class modelo extends conexion{
             System.err.println(e.getMessage());
         }
         Object[][] data = new String[num_registros][2];
-        String query = "SELECT * FROM consultamedica.comuna";
+        String query = "SELECT "
+                + "paciente.rut,"
+                + "paciente.nombre,"
+                + "paciente.gener,"
+                + "paciente.edad,"
+                + "paciente.direccion,"
+                + "comuna.nombre,"
+                + "paciente.isapre,"
+                + "paciente.donante "
+                + "FROM consultamedica.paciente"
+                + "INNER JOIN comuna ON comuna.idcomuna = paciente.idComuna"
+                + "ORDER BY paciente.rut ASC";
         
         try {
             PreparedStatement pstm = this.getConexion().prepareStatement(query);
@@ -121,7 +131,7 @@ public class modelo extends conexion{
             String genero,
             int edad,
             String direccion,
-            String ciudad,
+            int idComuna,
             String isapre,
             boolean donante) {
         
@@ -132,13 +142,13 @@ public class modelo extends conexion{
             donanteSQL=0;
         }
         String query = "INSERT INTO consultamedica.paciente("
-                + "rut,nombre,genero,edad,direccion,ciudad,isapre,donante)"
+                + "rut,nombre,genero,edad,direccion,idComuna,isapre,donante)"
                 + "VALUES('"+ rut
                 + "','" + nombre
                 + "','" + genero
                 + "','" + edad
                 + "','" + direccion
-                + "','" + ciudad
+                + "','" + idComuna
                 + "','" + isapre
                 + "'," + donanteSQL
                 + ") ;";
@@ -157,7 +167,7 @@ public class modelo extends conexion{
     public DefaultTableModel buscarPaciente(String rut) {
         DefaultTableModel tablemodel = new DefaultTableModel();
         int num_registros = 0;
-        String[] columNames = {"Rut", "Nombre", "Género", "Edad", "Dirección", "Ciudad", "Isapre", "Donante"};
+        String[] columNames = {"Rut", "Nombre", "Género", "Edad", "Dirección", "Comuna", "Isapre", "Donante"};
         try {
             PreparedStatement pstm = this.getConexion().prepareStatement("SELECT count(*) as numregistros FROM consultamedica.paciente;");
             ResultSet res = pstm.executeQuery();
@@ -170,9 +180,32 @@ public class modelo extends conexion{
         Object[][] data = new String[num_registros][8];
         String query;
         if (rut.equals("")){
-            query = "SELECT * FROM consultamedica.paciente";
+            query = "SELECT "
+                + "paciente.rut,"
+                + "paciente.nombre,"
+                + "paciente.gener,"
+                + "paciente.edad,"
+                + "paciente.direccion,"
+                + "comuna.nombre,"
+                + "paciente.isapre,"
+                + "paciente.donante "
+                + "FROM consultamedica.paciente"
+                + "INNER JOIN comuna ON comuna.idcomuna = paciente.idComuna"
+                + "ORDER BY paciente.rut ASC";
         } else {
-            query = "SELECT * FROM consultamedica.paciente WHERE rut='"+rut+"';";
+            query = "SELECT "
+                + "paciente.rut,"
+                + "paciente.nombre,"
+                + "paciente.gener,"
+                + "paciente.edad,"
+                + "paciente.direccion,"
+                + "comuna.nombre,"
+                + "paciente.isapre,"
+                + "paciente.donante "
+                + "FROM consultamedica.paciente"
+                + "INNER JOIN comuna ON comuna.idcomuna = paciente.idComuna"
+                + "WHERE rut='" + rut + "'"
+                + "ORDER BY paciente.rut ASC ;";
         }
         
         try {
@@ -185,7 +218,7 @@ public class modelo extends conexion{
                 data[i][2] = res.getString("genero");
                 data[i][3] = res.getString("edad");
                 data[i][4] = res.getString("direccion");
-                data[i][5] = res.getString("ciudad");
+                data[i][5] = res.getString("idComuna");
                 data[i][6] = res.getString("isapre");
                 if (res.getString("donante").equals("1")){
                     data[i][7] = "Sí";
@@ -209,7 +242,7 @@ public class modelo extends conexion{
             String genero,
             int edad,
             String direccion,
-            String ciudad,
+            String idComuna,
             String isapre,
             boolean donante) {
         int donanteSQL;
@@ -224,7 +257,7 @@ public class modelo extends conexion{
                 + "', genero='" + genero
                 + "', edad='" + edad
                 + "', direccion='" + direccion
-                + "', ciudad='" + ciudad
+                + "', idComuna='" + idComuna
                 + "', isapre='" + isapre
                 + "', donante='" + donanteSQL
                 + "' WHERE rut='" + rut
