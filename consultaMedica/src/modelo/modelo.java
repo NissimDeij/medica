@@ -192,9 +192,9 @@ public class modelo extends conexion{
                 + "comuna.nombre AS nombreComuna,"
                 + "paciente.isapre,"
                 + "paciente.donante "
-                + "FROM consultamedica.paciente "
-                + "INNER JOIN comuna ON comuna.idComuna = paciente.idComuna"
-                + "WHERE pacinte.rut='" + rut + "';";
+                + "FROM paciente "
+                + "INNER JOIN comuna ON comuna.idComuna = paciente.idComuna "
+                + "WHERE paciente.rut = '" + rut + "';";
                 //+ "ORDER BY paciente.rut ASC ;";
         }
         

@@ -102,6 +102,9 @@ public class controlador implements ActionListener, MouseListener, FocusListener
         //boton Salir
         this.vista2.btnSalir.setActionCommand("btnSalir");
         this.vista2.btnSalir.addActionListener(this);
+        //boton Salir
+        this.vista3.btnBuscar.setActionCommand("btnBuscar");
+        this.vista3.btnBuscar.addActionListener(this);
         //boton AgregarComuna
         this.vista4.btnAgregarComuna.setActionCommand("btnAgregarComuna");
         this.vista4.btnAgregarComuna.addActionListener(this);
